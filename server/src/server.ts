@@ -14,7 +14,7 @@ const startServer = () => {
   app.use(cors());
   app.use(express.json());
 
-  app.use(R.UsersRouter);
+  app.use(R.AuthRouter);
 
   app.listen(process.env.PORT, () => {
     console.log(`Server listening on port ${process.env.PORT}!`);

@@ -1,6 +1,14 @@
 import * as LD from "./duck";
+import bcrypt from "bcrypt";
 import * as D from "duck";
+import jsonwebtoken from "jsonwebtoken";
 import { UsersModel } from "models";
+
+const wrongCredentialsError = {
+  errors: {
+    common: D.VALIDATION_MESSAGES.wrongCredentials,
+  },
+};
 
 const UsersController: LD.IUsersController = {
   signUp: async (data) => {
@@ -13,6 +21,38 @@ const UsersController: LD.IUsersController = {
       };
     } catch (e) {
       return D.formatMongooseErrors(e);
+    }
+  },
+  signIn: async (data) => {
+    try {
+      const user = await UsersModel.findOne({ email: data.email });
+
+      if (!user) {
+        return wrongCredentialsError;
+      }
+
+      const isValidPassword = await bcrypt.compare(
+        data.password,
+        user.password
+      );
+
+      if (!isValidPassword) {
+        return wrongCredentialsError;
+      }
+
+      const token = jsonwebtoken.sign(
+        { _id: user._id },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "1 day" }
+      );
+
+      return { token: token };
+    } catch (e) {
+      return {
+        errors: {
+          common: "Something went wrong",
+        },
+      };
     }
   },
 };

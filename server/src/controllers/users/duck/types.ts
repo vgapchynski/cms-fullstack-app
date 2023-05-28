@@ -5,4 +5,8 @@ export interface IUsersController {
     email?: string;
     password?: string;
   }) => Promise<Pick<D.IUser, "email" | "_id"> | D.IValidationErrors>;
+  signIn: (data: {
+    email?: string;
+    password?: string;
+  }) => Promise<{ token: string } | D.IValidationErrors>;
 }
