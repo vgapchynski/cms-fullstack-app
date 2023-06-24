@@ -50,7 +50,7 @@ const UsersController: LD.IUsersController = {
     } catch (e) {
       return {
         errors: {
-          common: "Something went wrong",
+          common: D.VALIDATION_MESSAGES.default,
         },
       };
     }
