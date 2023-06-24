@@ -20,6 +20,10 @@ router
   .post("/sign-in", async (req, res) => {
     const result = await UsersController.signIn(req.body);
 
+    if ("errors" in result) {
+      res.status(403);
+    }
+
     res.json(result);
   });
 

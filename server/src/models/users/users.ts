@@ -3,7 +3,7 @@ import * as D from "duck";
 import mongoose from "mongoose";
 import validator from "validator";
 
-const usersSchema = new mongoose.Schema<D.IUser>({
+const usersSchema = new mongoose.Schema<D.FullUser>({
   email: {
     type: String,
     required: [true, D.VALIDATION_MESSAGES.required("Email")],
@@ -31,6 +31,6 @@ usersSchema.pre("save", async function (next) {
   }
 });
 
-const UsersModel = mongoose.model<D.IUser>("users", usersSchema);
+const UsersModel = mongoose.model<D.FullUser>("users", usersSchema);
 
 export default UsersModel;

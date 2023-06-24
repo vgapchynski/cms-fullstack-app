@@ -1,6 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
+import * as M from "middlewares";
 import mongoose from "mongoose";
 import * as R from "routes";
 
@@ -15,6 +16,9 @@ const startServer = () => {
   app.use(express.json());
 
   app.use(R.AuthRouter);
+
+  app.use(M.validateTokenMiddleware);
+  app.use(R.UserRouter);
 
   app.listen(process.env.PORT, () => {
     console.log(`Server listening on port ${process.env.PORT}!`);

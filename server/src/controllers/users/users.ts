@@ -55,6 +55,22 @@ const UsersController: LD.IUsersController = {
       };
     }
   },
+  findOne: async (id: string) => {
+    try {
+      const user = await UsersModel.findOne({ _id: id });
+
+      if (!user) {
+        throw new Error(D.VALIDATION_MESSAGES.notFound);
+      }
+
+      return {
+        _id: user._id,
+        email: user.email,
+      };
+    } catch (e) {
+      return { errors: e.message };
+    }
+  },
 };
 
 export default UsersController;
