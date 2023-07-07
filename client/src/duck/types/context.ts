@@ -12,3 +12,7 @@ export interface IAppContext {
 }
 
 export type SetAppContext = React.Dispatch<React.SetStateAction<IAppContext>>;
+
+export interface AppContextMethods {
+  logOut: () => void;
+}

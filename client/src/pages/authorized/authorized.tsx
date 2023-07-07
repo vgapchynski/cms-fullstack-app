@@ -1,10 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
+import * as LC from "./components";
+
 const Authorized: React.FC = () => {
   return (
     <Routes>
-      <Route index element={<div>authorized</div>} />
+      <Route path="*" element={<LC.Layout />}>
+        <Route index element={<div>authorized</div>} />
+      </Route>
     </Routes>
   );
 };

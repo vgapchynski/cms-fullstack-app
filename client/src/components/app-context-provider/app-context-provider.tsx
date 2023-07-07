@@ -1,3 +1,4 @@
+import * as CH from "@chakra-ui/react";
 import * as API from "api";
 import * as D from "duck";
 import React from "react";
@@ -36,8 +37,25 @@ const AppContextProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, []);
 
+  const logOut = () => {
+    setApp({
+      isLoading: false,
+      user: null,
+      token: null,
+    });
+    window.localStorage.removeItem("token");
+  };
+
+  if (app.isLoading) {
+    return (
+      <CH.Flex height="100vh" alignItems="center" justifyContent="center">
+        <CH.Spinner size="lg" />
+      </CH.Flex>
+    );
+  }
+
   return (
-    <D.AppContext.Provider value={[app, setApp]}>
+    <D.AppContext.Provider value={[app, setApp, { logOut }]}>
       {children}
     </D.AppContext.Provider>
   );
