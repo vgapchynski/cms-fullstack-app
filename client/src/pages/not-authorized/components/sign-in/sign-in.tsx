@@ -2,6 +2,7 @@ import * as CH from "@chakra-ui/react";
 import * as API from "api";
 import * as C from "components";
 import * as D from "duck";
+import * as H from "hooks";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -11,14 +12,26 @@ const schema = D.yup.object({
 });
 
 const SignIn: React.FC = () => {
+  const [, setApp] = H.useAppContext();
+
   const createToast = CH.useToast({
     isClosable: true,
     duration: 5000,
   });
 
   const { mutateAsync } = API.useSignInMutation({
-    onSuccess: (data) => {
-      console.log(data.data.token);
+    onSuccess: (response) => {
+      D.axios.defaults.headers.Authorization = response.data.token;
+      window.localStorage.setItem("token", response.data.token);
+
+      setApp((prev) => ({
+        ...prev,
+        user: {
+          _id: response.data._id,
+          email: response.data.email,
+        },
+        token: response.data.token,
+      }));
     },
     onError: (e) => {
       if (e.response?.data?.errors?.common) {
@@ -35,7 +48,7 @@ const SignIn: React.FC = () => {
     email: string;
     password: string;
   }> = (values) => {
-    return mutateAsync(values).catch(() => {});
+    return mutateAsync(values).catch(() => null);
   };
 
   return (
@@ -49,9 +62,7 @@ const SignIn: React.FC = () => {
           <C.Form onSubmit={handleSubmit} schema={schema}>
             <C.TextInput name="email" label="Email" />
             <C.TextInput name="password" label="Password" />
-            <CH.Button colorScheme="blue" type="submit" width="100%">
-              Submit
-            </CH.Button>
+            <C.Form.SubmitButton width="100%" />
             <CH.Link as={Link} to="/reset-password">
               Reset Password
             </CH.Link>

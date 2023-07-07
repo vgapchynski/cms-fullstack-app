@@ -4,9 +4,11 @@ import { UseMutationOptions, useMutation } from "react-query";
 
 const useSignInMutation = (
   options?: UseMutationOptions<
-    AxiosResponse<{
-      token: string;
-    }>,
+    AxiosResponse<
+      D.User & {
+        token: string;
+      }
+    >,
     AxiosError<D.ApiResponseErrors>,
     { email: string; password: string }
   >

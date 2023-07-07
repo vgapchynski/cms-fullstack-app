@@ -1,4 +1,5 @@
 import * as CH from "@chakra-ui/react";
+import * as C from "components";
 import * as D from "duck";
 import React from "react";
 import { QueryClientProvider } from "react-query";
@@ -14,7 +15,9 @@ const AppProvider: React.FC = () => {
           initialColorMode={D.THEME.config.initialColorMode}
         />
         <BrowserRouter>
-          <App />
+          <C.AppContextProvider>
+            <App />
+          </C.AppContextProvider>
         </BrowserRouter>
       </CH.ChakraBaseProvider>
     </QueryClientProvider>

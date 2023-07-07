@@ -46,7 +46,7 @@ const UsersController: LD.IUsersController = {
         { expiresIn: "1 day" }
       );
 
-      return { token: token };
+      return { token: token, _id: user._id, email: user.email };
     } catch (e) {
       return {
         errors: {
