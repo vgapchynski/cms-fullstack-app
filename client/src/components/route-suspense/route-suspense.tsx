@@ -5,7 +5,7 @@ const RouteSuspense: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <React.Suspense
       fallback={
-        <CH.Flex minHeight="100vh" align="center" justify="center">
+        <CH.Flex minHeight="100%" align="center" justify="center">
           <CH.Spinner size="lg" />
         </CH.Flex>
       }

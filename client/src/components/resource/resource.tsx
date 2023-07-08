@@ -1,6 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
+import RouteSuspense from "../route-suspense";
+
 const Resource: React.FC<{
   list?: React.ExoticComponent;
   create?: React.ExoticComponent;
@@ -9,12 +11,30 @@ const Resource: React.FC<{
 }> = ({ list, create, show, edit }) => {
   return (
     <Routes>
-      {list && <Route index element={React.createElement(list)} />}
-      {show && <Route path=":id/*" element={React.createElement(show)} />}
-      {create && (
-        <Route path="create/*" element={React.createElement(create)} />
+      {list && (
+        <Route
+          index
+          element={<RouteSuspense>{React.createElement(list)}</RouteSuspense>}
+        />
       )}
-      {edit && <Route path=":id/edit/*" element={React.createElement(edit)} />}
+      {show && (
+        <Route
+          path=":id/*"
+          element={<RouteSuspense>{React.createElement(show)}</RouteSuspense>}
+        />
+      )}
+      {create && (
+        <Route
+          path="create/*"
+          element={<RouteSuspense>{React.createElement(create)}</RouteSuspense>}
+        />
+      )}
+      {edit && (
+        <Route
+          path=":id/edit/*"
+          element={<RouteSuspense>{React.createElement(edit)}</RouteSuspense>}
+        />
+      )}
     </Routes>
   );
 };
