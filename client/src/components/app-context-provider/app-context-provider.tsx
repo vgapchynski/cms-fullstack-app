@@ -16,6 +16,14 @@ const AppContextProvider: React.FC<React.PropsWithChildren> = ({
     token: null,
   });
 
+  const resetState = () => {
+    setApp(() => ({
+      isLoading: false,
+      user: null,
+      token: null,
+    }));
+  };
+
   React.useEffect(() => {
     if (token) {
       refetch()
@@ -26,13 +34,12 @@ const AppContextProvider: React.FC<React.PropsWithChildren> = ({
               token,
               user: response.data.data,
             });
+          } else {
+            resetState();
           }
         })
         .catch(() => {
-          setApp((prev) => ({
-            ...prev,
-            isLoading: false,
-          }));
+          resetState();
         });
     }
   }, []);

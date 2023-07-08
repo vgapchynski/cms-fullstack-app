@@ -5,8 +5,6 @@ import React from "react";
 const App: React.FC = () => {
   const [app] = H.useAppContext();
 
-  console.log(app);
-
   return app.user ? <P.Authorized /> : <P.NotAuthorized />;
 };
 
